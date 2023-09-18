@@ -136,6 +136,7 @@
     <ClCompile Include="root\classes\misc\shortcuts.cpp" />
     <ClCompile Include="root\classes\rendering\EBO.cpp" />
     <ClCompile Include="root\classes\rendering\Shader.cpp" />
+    <ClCompile Include="root\classes\rendering\Texture.cpp" />
     <ClCompile Include="root\classes\rendering\VBO.cpp" />
     <ClCompile Include="root\main.cpp" />
     <ClCompile Include="root\src\glad.c" />
@@ -146,6 +147,7 @@
     <ClInclude Include="root\include\classes\misc\shortcuts.h" />
     <ClInclude Include="root\include\classes\rendering\EBO.h" />
     <ClInclude Include="root\include\classes\rendering\Shader.h" />
+    <ClInclude Include="root\include\classes\rendering\Texture.h" />
     <ClInclude Include="root\include\classes\rendering\VAO.h" />
     <ClInclude Include="root\include\classes\rendering\VBO.h" />
   </ItemGroup>

@@ -39,6 +39,9 @@
     <ClCompile Include="root\src\stb.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="root\classes\rendering\Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="root\include\classes\misc\shortcuts.h">
@@ -54,6 +57,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="root\include\classes\rendering\Shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="root\include\classes\rendering\Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

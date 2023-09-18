@@ -11,8 +11,10 @@ class Window
 public:
 	bool initialized = false;
 	GLFWwindow* ID;
+	int width;
+	int height;
 
-	Window(int width, int height, const char* title);
+	Window(int windowWidth, int windowHeight, const char* title);
 
 	bool isValid();
 	void Update();

@@ -1,12 +1,12 @@
 #include<classes/misc/shortcuts.h>
 
-Window::Window(int width, int height, const char* title) {
+Window::Window(int windowWidth, int windowHeight, const char* title) {
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	ID = glfwCreateWindow(width, height, title, NULL, NULL);
+	ID = glfwCreateWindow(windowWidth, windowHeight, title, NULL, NULL);
 	if (ID == NULL) {
 		std::cout << "Hey fuckwad, the window you tried to create failed to render." << std::endl;
 		glfwTerminate();
@@ -17,9 +17,11 @@ Window::Window(int width, int height, const char* title) {
 
 	gladLoadGL();
 
-	glViewport(0, 0, 800, 600);
+	glViewport(0, 0, windowWidth, windowHeight);
 
 	initialized = true;
+	width = windowWidth;
+	height = windowHeight;
 }
 
 bool Window::isValid() {

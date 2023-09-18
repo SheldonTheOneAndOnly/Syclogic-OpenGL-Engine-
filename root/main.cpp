@@ -32,7 +32,8 @@ int main() {
 	VBO VBO(vertices, sizeof(vertices));
 	EBO EBO(indices, sizeof(indices));
 
-	VAO.Link(VBO, 0);
+	VAO.Link(VBO, 0, 3, GL_FLOAT, 6 * sizeof(float), 0);
+	VAO.Link(VBO, 1, 3, GL_FLOAT, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 	VAO.Unbind();
 	VBO.Unbind();
 	EBO.Unbind();

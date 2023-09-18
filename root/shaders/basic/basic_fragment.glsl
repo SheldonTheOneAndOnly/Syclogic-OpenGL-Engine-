@@ -2,6 +2,8 @@
 
 out vec4 fCol;
 
+in vec3 vCol;
+
 void main(){
-	fCol = vec4(1.0f, 1.0f, 1.0f, 1.0f);
+	fCol = vec4(vCol, 1.0f);
 }

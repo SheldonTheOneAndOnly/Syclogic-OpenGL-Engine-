@@ -36,6 +36,9 @@
     <ClCompile Include="root\classes\rendering\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="root\src\stb.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="root\include\classes\misc\shortcuts.h">
@@ -57,5 +60,10 @@
   <ItemGroup>
     <None Include="root\shaders\basic\basic_vertex.glsl" />
     <None Include="root\shaders\basic\basic_fragment.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="root\resources\textures\Got.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

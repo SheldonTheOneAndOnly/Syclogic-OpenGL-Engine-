@@ -140,6 +140,7 @@
     <ClCompile Include="root\main.cpp" />
     <ClCompile Include="root\src\glad.c" />
     <ClCompile Include="root\classes\rendering\VAO.cpp" />
+    <ClCompile Include="root\src\stb.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="root\include\classes\misc\shortcuts.h" />
@@ -151,6 +152,9 @@
   <ItemGroup>
     <None Include="root\shaders\basic\basic_fragment.glsl" />
     <None Include="root\shaders\basic\basic_vertex.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="root\resources\textures\Got.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

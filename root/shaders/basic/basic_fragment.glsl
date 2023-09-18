@@ -3,7 +3,10 @@
 out vec4 fCol;
 
 in vec3 vCol;
+in vec2 vUV;
+
+uniform sampler2D tex0;
 
 void main(){
-	fCol = vec4(vCol, 1.0f);
+	fCol = texture(tex0, vUV);
 }

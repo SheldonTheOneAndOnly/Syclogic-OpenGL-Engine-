@@ -72,10 +72,15 @@
   <ItemGroup>
     <None Include="root\shaders\basic\basic_vertex.glsl" />
     <None Include="root\shaders\basic\basic_fragment.glsl" />
+    <None Include="root\shaders\lighting\point_vertex.glsl" />
+    <None Include="root\shaders\lighting\point_fragment.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="root\resources\textures\Got.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="root\resources\textures\brick.tga" />
+    <Image Include="root\resources\textures\brick_n.tga" />
+    <Image Include="root\resources\textures\brick_s.tga" />
   </ItemGroup>
 </Project>

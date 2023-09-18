@@ -11,8 +11,9 @@ class Texture {
 public:
 	GLuint ID;
 	GLenum texType;
+	GLuint unit;
 
-	Texture(const char* file, GLenum type, GLenum textureNum, GLint format, GLint filter, GLint border);
+	Texture(const char* file, GLenum type, GLuint slot, GLint format, GLint filter, GLint border);
 
 	void TextureUnit(Shader& shader, const char* uni, GLuint unit);
 	void Bind();

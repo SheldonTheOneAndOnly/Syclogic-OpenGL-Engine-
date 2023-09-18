@@ -156,8 +156,13 @@
   <ItemGroup>
     <None Include="root\shaders\basic\basic_fragment.glsl" />
     <None Include="root\shaders\basic\basic_vertex.glsl" />
+    <None Include="root\shaders\lighting\point_fragment.glsl" />
+    <None Include="root\shaders\lighting\point_vertex.glsl" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="root\resources\textures\brick.tga" />
+    <Image Include="root\resources\textures\brick_n.tga" />
+    <Image Include="root\resources\textures\brick_s.tga" />
     <Image Include="root\resources\textures\Got.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

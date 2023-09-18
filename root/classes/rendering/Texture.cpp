@@ -1,10 +1,11 @@
 #include<classes/rendering/Texture.h>
-Texture::Texture(const char* file, GLenum type, GLenum textureNum, GLint format, GLint filter, GLint border) {
+Texture::Texture(const char* file, GLenum type, GLuint slot, GLint format, GLint filter, GLint border) {
 	int width, height, numColCh;
 	unsigned char* bytes = stbi_load(file, &width, &height, &numColCh, 0);
 
 	glGenTextures(1, &ID);
-	glActiveTexture(textureNum);
+	glActiveTexture(GL_TEXTURE0 + slot);
+	unit = slot;
 	glBindTexture(type, ID);
 
 	texType = type;
@@ -29,6 +30,7 @@ void Texture::TextureUnit(Shader& shader, const char* uni, GLuint unit) {
 }
 
 void Texture::Bind() {
+	glActiveTexture(GL_TEXTURE0 + unit);
 	glBindTexture(texType, ID);
 }
 

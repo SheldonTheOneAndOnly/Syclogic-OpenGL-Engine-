@@ -7,12 +7,10 @@ layout (location = 2) in vec2 aUV;
 out vec3 vCol;
 out vec2 vUV;
 
-uniform mat4 model;
-uniform mat4 view;
-uniform mat4 projection;
+uniform mat4 camMat;
 
 void main(){
-	gl_Position = projection * view * model * vec4(aPos, 1.0f);
+	gl_Position = camMat * vec4(aPos, 1.0f);
 	vCol = aCol;
 	vUV = aUV;
 }

@@ -11,8 +11,7 @@ class Window
 public:
 	bool initialized = false;
 	GLFWwindow* ID;
-	int width;
-	int height;
+	int width, height;
 
 	Window(int windowWidth, int windowHeight, const char* title);
 

@@ -8,25 +8,29 @@
 #include<glm/gtc/type_ptr.hpp>
 
 // These libraries are classes
-#include<classes/misc/shortcuts.h>
+#include<classes/misc/Shortcuts.h>
 #include<classes/rendering/Shader.h>
 #include<classes/rendering/VAO.h>
-#include<classes/rendering/VBO.h>
+#include<classes/rendering/VBO.h>	
 #include<classes/rendering/EBO.h>
 #include<classes/rendering/Texture.h>
+#include<classes/rendering/Camera.h>
 
 GLfloat vertices[] = {
-	-0.5f, -0.5f, -0.5f,		1.0f, 0.0f, 0.0f,		0.0f, 0.0f,
-	0.0f, -0.5f, 0.5f,		0.0f, 1.0f, 0.0f,		0.5f, 0.0f,
-	0.5f, -0.5f, -0.5f,		0.0f, 0.0f, 1.0f,		1.0f, 0.0f,
-	0.0f, 1.0f, 0.0f,		1.0f, 1.0f, 1.0f,		0.5f, 1.0f
+	-0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,	0.0f, 0.0f,
+	-0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	5.0f, 0.0f,
+	 0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	0.0f, 0.0f,
+	 0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,	5.0f, 0.0f,
+	 0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	2.5f, 5.0f
 };
 
 GLuint indices[] = {
 	0, 1, 2,
-	0, 1, 3,
-	1, 2, 3,
-	2, 0, 3
+	0, 2, 3,
+	0, 1, 4,
+	1, 2, 4,
+	2, 3, 4,
+	3, 0, 4
 };
 
 int main() {
@@ -52,38 +56,18 @@ int main() {
 
 	glEnable(GL_DEPTH_TEST);
 
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	Camera cam(window.width, window.height, glm::vec3(0.0f, 0.0f, 2.5f));
 
-	float rotation = 0.0f;
-	double prevTime = glfwGetTime();
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 	while (!glfwWindowShouldClose(window.ID)) {
 		glClearColor(0.5f, 0.25f, 0.25f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		shaderProg.Activate();
 
-		double crntTime = glfwGetTime();
-		if (crntTime - prevTime >= 1 / 60) {
-			rotation += 0.5f;
-			prevTime = crntTime;
-		}
-
-		glm::mat4 model = glm::mat4(1.0f);
-		glm::mat4 view = glm::mat4(1.0f);
-		glm::mat4 proj = glm::mat4(1.0f);
-
-		model = glm::rotate(model, glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f));
-		view = glm::translate(view, glm::vec3(0.0f, -0.5f, -2.5f));
-		proj = glm::perspective(glm::radians(70.0f), (float)(window.width / window.height), 0.1f, 100.0f);
-
-		int modelLoc = glGetUniformLocation(shaderProg.ID, "model");
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-
-		int viewLoc = glGetUniformLocation(shaderProg.ID, "view");
-		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-
-		int projLoc = glGetUniformLocation(shaderProg.ID, "projection");
-		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(proj));
+		cam.Inputs(window.ID);
+		cam.UpdateMat(70, 0.1f, 100.0f);
+		cam.Mat(shaderProg, "camMat");
 
 		texture.Bind();
 		VAO.Bind();

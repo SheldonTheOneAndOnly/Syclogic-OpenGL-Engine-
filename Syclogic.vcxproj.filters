@@ -21,7 +21,7 @@
     <ClCompile Include="root\src\glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="root\classes\misc\shortcuts.cpp">
+    <ClCompile Include="root\classes\misc\Shortcuts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="root\classes\rendering\VAO.cpp">
@@ -42,9 +42,12 @@
     <ClCompile Include="root\classes\rendering\Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="root\classes\rendering\Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="root\include\classes\misc\shortcuts.h">
+    <ClInclude Include="root\include\classes\misc\Shortcuts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="root\include\classes\rendering\VAO.h">
@@ -60,6 +63,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="root\include\classes\rendering\Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="root\include\classes\rendering\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

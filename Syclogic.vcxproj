@@ -133,6 +133,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="root\classes\core\Mesh.cpp" />
     <ClCompile Include="root\classes\misc\Shortcuts.cpp" />
     <ClCompile Include="root\classes\rendering\Camera.cpp" />
     <ClCompile Include="root\classes\rendering\EBO.cpp" />
@@ -145,6 +146,7 @@
     <ClCompile Include="root\src\stb.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="root\include\classes\core\Mesh.h" />
     <ClInclude Include="root\include\classes\misc\Shortcuts.h" />
     <ClInclude Include="root\include\classes\rendering\Camera.h" />
     <ClInclude Include="root\include\classes\rendering\EBO.h" />
@@ -156,8 +158,8 @@
   <ItemGroup>
     <None Include="root\shaders\basic\basic_fragment.glsl" />
     <None Include="root\shaders\basic\basic_vertex.glsl" />
-    <None Include="root\shaders\lighting\point_fragment.glsl" />
-    <None Include="root\shaders\lighting\point_vertex.glsl" />
+    <None Include="root\shaders\lighting\light_fragment.glsl" />
+    <None Include="root\shaders\lighting\light_vertex.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="root\resources\textures\brick.tga" />

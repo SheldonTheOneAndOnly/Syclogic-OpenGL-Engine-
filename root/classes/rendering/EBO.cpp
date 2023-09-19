@@ -1,9 +1,9 @@
 #include<classes/rendering/EBO.h>
 
-EBO::EBO(GLuint* indices, GLsizeiptr size) {
+EBO::EBO(std::vector<GLuint>& inds) {
 	glGenBuffers(1, &ID);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ID);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, indices, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, inds.size() * sizeof(GLuint), inds.data(), GL_STATIC_DRAW);
 	std::cout << "EBO successfully created" << std::endl;
 }
 

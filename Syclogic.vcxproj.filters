@@ -45,6 +45,9 @@
     <ClCompile Include="root\classes\rendering\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="root\classes\core\Mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="root\include\classes\misc\Shortcuts.h">
@@ -68,12 +71,15 @@
     <ClInclude Include="root\include\classes\rendering\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="root\include\classes\core\Mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="root\shaders\basic\basic_vertex.glsl" />
     <None Include="root\shaders\basic\basic_fragment.glsl" />
-    <None Include="root\shaders\lighting\point_vertex.glsl" />
-    <None Include="root\shaders\lighting\point_fragment.glsl" />
+    <None Include="root\shaders\lighting\light_vertex.glsl" />
+    <None Include="root\shaders\lighting\light_fragment.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="root\resources\textures\Got.png">

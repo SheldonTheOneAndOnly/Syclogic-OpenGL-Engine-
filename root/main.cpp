@@ -9,18 +9,13 @@
 
 // These libraries are classes
 #include<classes/misc/Shortcuts.h>
-#include<classes/rendering/Shader.h>
-#include<classes/rendering/VAO.h>
-#include<classes/rendering/VBO.h>	
-#include<classes/rendering/EBO.h>
-#include<classes/rendering/Texture.h>
-#include<classes/rendering/Camera.h>
+#include<classes/core/Mesh.h>
 
-GLfloat vertices[] = {
-	-0.5f, 0.0f,  0.5f,     0.0f, 1.0f, 0.0f,	0.83f, 0.70f, 0.44f, 	 0.0f, 0.0f,
-	-0.5f, 0.0f, -0.5f,     0.0f, 1.0f, 0.0f,	0.83f, 0.70f, 0.44f,	 0.0f, 5.0f,
-	 0.5f, 0.0f, -0.5f,     0.0f, 1.0f, 0.0f,	0.83f, 0.70f, 0.44f,	 5.0f, 5.0f,
-	 0.5f, 0.0f,  0.5f,     0.0f, 1.0f, 0.0f,	0.83f, 0.70f, 0.44f,	 5.0f, 0.0f,
+Vertex vertices[] = {
+	Vertex{glm::vec3(- 2.5f, 0.0f,  2.5f),   glm::vec3(0.0f, 1.0f, 0.0f),		glm::vec3(0.83f, 0.70f, 0.44f), 	 glm::vec2(0.0f, 0.0f)},
+	Vertex{glm::vec3(-2.5f, 0.0f, -2.5f),    glm::vec3(0.0f, 1.0f, 0.0f),		glm::vec3(0.83f, 0.70f, 0.44f),	 glm::vec2(0.0f, 5.0f)},
+	Vertex{glm::vec3(2.5f, 0.0f, -2.5f),     glm::vec3(0.0f, 1.0f, 0.0f),		glm::vec3(0.83f, 0.70f, 0.44f),	 glm::vec2(5.0f, 5.0f)},
+	Vertex{glm::vec3(2.5f, 0.0f,  2.5f),     glm::vec3(0.0f, 1.0f, 0.0f),		glm::vec3(0.83f, 0.70f, 0.44f),	 glm::vec2(5.0f, 0.0f)},
 };
 
 // Indices for vertices order
@@ -29,15 +24,15 @@ GLuint indices[] = {
 	0, 2, 3
 };
 
-GLfloat lightVertices[] = {
-	-0.1f, -0.1f,  0.1f,
-	-0.1f, -0.1f, -0.1f,
-	 0.1f, -0.1f, -0.1f,
-	 0.1f, -0.1f,  0.1f,
-	-0.1f,  0.1f,  0.1f,
-	-0.1f,  0.1f, -0.1f,
-	 0.1f,  0.1f, -0.1f,
-	 0.1f,  0.1f,  0.1f
+Vertex lightVertices[] = {
+	Vertex{glm::vec3(- 0.1f, -0.1f,  0.1f)},
+	Vertex{glm::vec3(-0.1f, -0.1f, -0.1f)},
+	Vertex{glm::vec3(0.1f, -0.1f, -0.1f)},
+	Vertex{glm::vec3(0.1f, -0.1f,  0.1f)},
+	Vertex{glm::vec3(-0.1f,  0.1f,  0.1f)},
+	Vertex{glm::vec3(-0.1f,  0.1f, -0.1f)},
+	Vertex{glm::vec3(0.1f,  0.1f, -0.1f)},
+	Vertex{glm::vec3(0.1f,  0.1f,  0.1f)}
 };
 
 GLuint lightIndices[] = {
@@ -59,36 +54,26 @@ int main() {
 	Window window = Window(800, 800, "OpenGL Renderer");
 	stbi_set_flip_vertically_on_load(true);
 
+	Texture textures[] = {
+		Texture("root/resources/textures/Brick.tga", "diff", 0, GL_RGB, GL_NEAREST, GL_REPEAT),
+		Texture("root/resources/textures/Brick_s.tga", "spec", 1, GL_RED, GL_NEAREST, GL_REPEAT)
+	};
+
 	Shader shaderProg = Shader("root/shaders/basic/basic_vertex.glsl", "root/shaders/basic/basic_fragment.glsl");
-	VAO basicVAO;
-	basicVAO.Bind();
+	std::vector<Vertex> verts(vertices, vertices + sizeof(vertices) / sizeof(Vertex));
+	std::vector<GLuint> inds(indices, indices + sizeof(indices) / sizeof(GLuint));
+	std::vector<Texture> texs(textures, textures + sizeof(textures) / sizeof(Texture));
+	Mesh plane(verts, inds, texs);
 
-	VBO basicVBO(vertices, sizeof(vertices));
-	EBO basicEBO(indices, sizeof(indices));
-
-	basicVAO.Link(basicVBO, 0, 3, GL_FLOAT, 11 * sizeof(float), 0);
-	basicVAO.Link(basicVBO, 1, 3, GL_FLOAT, 11 * sizeof(float), (void*)(3 * sizeof(float)));
-	basicVAO.Link(basicVBO, 2, 3, GL_FLOAT, 11 * sizeof(float), (void*)(6 * sizeof(float)));
-	basicVAO.Link(basicVBO, 3, 2, GL_FLOAT, 11 * sizeof(float), (void*)(9 * sizeof(float)));
-	basicVAO.Unbind();
-	basicVBO.Unbind();
-	basicEBO.Unbind();
-
-	Shader lightProg = Shader("root/shaders/lighting/point_vertex.glsl", "root/shaders/lighting/point_fragment.glsl");
-	VAO lightVAO;
-	lightVAO.Bind();
-
-	VBO lightVBO(lightVertices, sizeof(lightVertices));
-	EBO lightEBO(lightIndices, sizeof(lightIndices));
-
-	lightVAO.Link(lightVBO, 0, 3, GL_FLOAT, 3 * sizeof(float), 0);
-	lightVAO.Unbind();
-	lightVBO.Unbind();
-	lightEBO.Unbind();
+	Shader lightProg = Shader("root/shaders/lighting/light_vertex.glsl", "root/shaders/lighting/light_fragment.glsl");
+	std::vector<Vertex> lightVerts(lightVertices, lightVertices + sizeof(lightVertices) / sizeof(Vertex));
+	std::vector<GLuint> lightInds(lightIndices, lightIndices + sizeof(lightIndices) / sizeof(GLuint));
+	Mesh light(lightVerts, lightInds, texs);
+	
 
 	glm::vec4 lightCol = glm::vec4(1.0f, 0.8f, 0.8f, 1.0f);
 
-	glm::vec3 lightPos = glm::vec3(0.0f, 1.0f, 0.0f);
+	glm::vec3 lightPos = glm::vec3(0.0f, 0.5f, 0.0f);
 	glm::mat4 lightModel = glm::mat4(1.0f);
 	lightModel = glm::translate(lightModel, lightPos);
 
@@ -104,14 +89,8 @@ int main() {
 	glUniformMatrix4fv(glGetUniformLocation(shaderProg.ID, "model"), 1, GL_FALSE, glm::value_ptr(planeModel));
 	glUniform4f(glGetUniformLocation(shaderProg.ID, "lightCol"), lightCol.x, lightCol.y, lightCol.z, lightCol.w);
 	glUniform3f(glGetUniformLocation(shaderProg.ID, "lightPos"), lightPos.x, lightPos.y, lightPos.z);
-	glUniform1f(glGetUniformLocation(shaderProg.ID, "ambience"), 0.25f);
+	glUniform1f(glGetUniformLocation(shaderProg.ID, "ambience"), 0.1f);
 	glUniform1f(glGetUniformLocation(shaderProg.ID, "specular"), 0.5f);
-
-	Texture texture("root/resources/textures/Brick.tga", GL_TEXTURE_2D, 0, GL_RGB, GL_NEAREST, GL_REPEAT);
-	texture.TextureUnit(shaderProg, "tex0", 0);
-
-	Texture specularMap("root/resources/textures/Brick_s.tga", GL_TEXTURE_2D, 1, GL_RED, GL_NEAREST, GL_REPEAT);
-	specularMap.TextureUnit(shaderProg, "tex1", 1);
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -123,28 +102,15 @@ int main() {
 		glClearColor(0.5f, 0.25f, 0.25f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		shaderProg.Activate();
-		glUniform3f(glGetUniformLocation(shaderProg.ID, "camPos"), cam.position.x, cam.position.y, cam.position.z);
 		cam.Inputs(window.ID);
-		cam.UpdateMat(70, 0.1f, 100.0f);
-		cam.Mat(shaderProg, "camMat");
+		cam.UpdateMat(70.0f, 0.1f, 100.0f);
 
-		texture.Bind();
-		specularMap.Bind();
-		basicVAO.Bind();
-		glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(int), GL_UNSIGNED_INT, 0);
-
-		lightProg.Activate();
-		cam.Mat(lightProg, "camMat");
-		lightVAO.Bind();
-		glDrawElements(GL_TRIANGLES, sizeof(lightIndices) / sizeof(int), GL_UNSIGNED_INT, 0);
+		plane.Draw(shaderProg, cam);
+		light.Draw(lightProg, cam);
+		
 
 		window.Update();
 	}
-	texture.Destroy();
-	basicVAO.Destroy();
-	basicVBO.Destroy();
-	basicEBO.Destroy();
 	shaderProg.Destroy();
 	window.Destroy();
 	glfwTerminate();

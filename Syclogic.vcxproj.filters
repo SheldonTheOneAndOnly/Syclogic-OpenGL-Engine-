@@ -80,6 +80,8 @@
     <None Include="root\shaders\basic\basic_fragment.glsl" />
     <None Include="root\shaders\lighting\light_vertex.glsl" />
     <None Include="root\shaders\lighting\light_fragment.glsl" />
+    <None Include="root\shaders\basic\basic_geometry.glsl" />
+    <None Include="root\shaders\lighting\light_geometry.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="root\resources\textures\Got.png">

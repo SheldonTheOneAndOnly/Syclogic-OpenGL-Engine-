@@ -2,8 +2,8 @@
 
 out vec4 fCol;
 
-in vec3 vNor;
 in vec3 curPos;
+in vec3 vNor;
 in vec3 vCol;
 in vec2 vUV;
 
@@ -19,8 +19,8 @@ uniform float specular;
 vec4 point(){
 	vec3 lightVec = lightPos - curPos;
 	float dist = length(lightVec);
-	float a = 3.0f;
-	float b = 0.7f;
+	float a = 1.0f;
+	float b = 0.1f;
 	float intensity = 1.0f / (a * dist * dist + b * dist + 1.0f);
 
 	vec3 normal = normalize(vNor);
@@ -72,7 +72,14 @@ vec4 spot(){
 	return (texture(diff0, vUV) * (diff * intensity + ambience) + texture(spec0, vUV).r * spec * intensity) * lightCol;
 }
 
+float near = 0.1f;
+float far = 100.0f;
+
+float linearDepth(float depth) {
+	return (2.0f * near * far) / (far + near - (depth * 2.0f - 1.0f) * (far - near));
+}
+
 void main(){
 	
-	fCol = spot();
+	fCol = point();
 }

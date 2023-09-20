@@ -59,13 +59,13 @@ int main() {
 		Texture("root/resources/textures/Brick_s.tga", "spec", 1, GL_RED, GL_NEAREST, GL_REPEAT)
 	};
 
-	Shader shaderProg = Shader("root/shaders/basic/basic_vertex.glsl", "root/shaders/basic/basic_fragment.glsl");
+	Shader shaderProg = Shader("root/shaders/basic/basic_vertex.glsl", "root/shaders/basic/basic_geometry.glsl", "root/shaders/basic/basic_fragment.glsl");
 	std::vector<Vertex> verts(vertices, vertices + sizeof(vertices) / sizeof(Vertex));
 	std::vector<GLuint> inds(indices, indices + sizeof(indices) / sizeof(GLuint));
 	std::vector<Texture> texs(textures, textures + sizeof(textures) / sizeof(Texture));
 	Mesh plane(verts, inds, texs);
 
-	Shader lightProg = Shader("root/shaders/lighting/light_vertex.glsl", "root/shaders/lighting/light_fragment.glsl");
+	Shader lightProg = Shader("root/shaders/lighting/light_vertex.glsl", "root/shaders/lighting/light_geometry.glsl", "root/shaders/lighting/light_fragment.glsl");
 	std::vector<Vertex> lightVerts(lightVertices, lightVertices + sizeof(lightVertices) / sizeof(Vertex));
 	std::vector<GLuint> lightInds(lightIndices, lightIndices + sizeof(lightIndices) / sizeof(GLuint));
 	Mesh light(lightVerts, lightInds, texs);
@@ -107,7 +107,6 @@ int main() {
 
 		plane.Draw(shaderProg, cam);
 		light.Draw(lightProg, cam);
-		
 
 		window.Update();
 	}

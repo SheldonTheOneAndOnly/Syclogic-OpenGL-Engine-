@@ -137,6 +137,8 @@
     <ClCompile Include="root\classes\misc\Shortcuts.cpp" />
     <ClCompile Include="root\classes\rendering\Camera.cpp" />
     <ClCompile Include="root\classes\rendering\EBO.cpp" />
+    <ClCompile Include="root\classes\rendering\FBO.cpp" />
+    <ClCompile Include="root\classes\rendering\RBO.cpp" />
     <ClCompile Include="root\classes\rendering\Shader.cpp" />
     <ClCompile Include="root\classes\rendering\Texture.cpp" />
     <ClCompile Include="root\classes\rendering\VBO.cpp" />
@@ -150,6 +152,9 @@
     <ClInclude Include="root\include\classes\misc\Shortcuts.h" />
     <ClInclude Include="root\include\classes\rendering\Camera.h" />
     <ClInclude Include="root\include\classes\rendering\EBO.h" />
+    <ClInclude Include="root\include\classes\rendering\FBO.h" />
+    <ClInclude Include="root\include\classes\rendering\Material.h" />
+    <ClInclude Include="root\include\classes\rendering\RBO.h" />
     <ClInclude Include="root\include\classes\rendering\Shader.h" />
     <ClInclude Include="root\include\classes\rendering\Texture.h" />
     <ClInclude Include="root\include\classes\rendering\VAO.h" />
@@ -162,6 +167,8 @@
     <None Include="root\shaders\lighting\light_fragment.glsl" />
     <None Include="root\shaders\lighting\light_geometry.glsl" />
     <None Include="root\shaders\lighting\light_vertex.glsl" />
+    <None Include="root\shaders\UI\framebuffer_fragment.glsl" />
+    <None Include="root\shaders\UI\framebuffer_vertex.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="root\resources\textures\brick.tga" />

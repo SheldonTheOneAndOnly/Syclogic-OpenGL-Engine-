@@ -1,9 +1,10 @@
 #include<classes/misc/shortcuts.h>
 
-Window::Window(int windowWidth, int windowHeight, const char* title) {
+Window::Window(int windowWidth, int windowHeight, const char* title, unsigned int samples) {
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+	glfwWindowHint(GLFW_SAMPLES, samples);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	ID = glfwCreateWindow(windowWidth, windowHeight, title, NULL, NULL);

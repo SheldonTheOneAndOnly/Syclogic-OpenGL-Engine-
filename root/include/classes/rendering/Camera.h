@@ -30,6 +30,9 @@ public:
 	void UpdateMat(float FOV, float nearZ, float farZ);
 	void Mat(Shader& shader, const char* uni);
 	void Inputs(GLFWwindow* window);
+private:
+	glm::vec3 direction;
+	float multiplySpeed = 0.0f;
 };
 
 #endif

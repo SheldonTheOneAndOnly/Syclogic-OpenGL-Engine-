@@ -18,7 +18,6 @@ void Camera::UpdateMat(float FOV, float nearZ, float farZ) {
 
 void Camera::Mat(Shader& shader, const char* uni) {
 	glUniformMatrix4fv(glGetUniformLocation(shader.ID, uni), 1, GL_FALSE, glm::value_ptr(camMat));
-
 }
 
 void Camera::Inputs(GLFWwindow* window) {

@@ -13,7 +13,7 @@ public:
 	GLFWwindow* ID;
 	int width, height;
 
-	Window(int windowWidth, int windowHeight, const char* title);
+	Window(int windowWidth, int windowHeight, const char* title, unsigned int samples);
 
 	bool isValid();
 	void Update();
@@ -22,9 +22,9 @@ public:
 
 struct Vertex {
 	glm::vec3 pos;
-	glm::vec3 nor;
 	glm::vec3 col;
 	glm::vec2 UV;
+	glm::vec3 nor;
 };
 
 #endif

@@ -16,22 +16,27 @@ std::string GetFileContents(const char* filename)
 	throw(errno);
 }
 
-Shader::Shader(const char* vertFile, const char* geoFile, const char* fragFile) {
+Shader::Shader(const char* vertFile, const char* geoFile, const char* fragFile, bool hasGeo) {
 	std::string vertCode = GetFileContents(vertFile);
-	std::string geoCode = GetFileContents(geoFile);
+	std::string geoCode;
+	if (hasGeo) {geoCode = GetFileContents(geoFile);}
 	std::string fragCode = GetFileContents(fragFile);
 
 	const char* vertSource = vertCode.c_str();
-	const char* geoSource = geoCode.c_str();
+	const char* geoSource;
+	if (hasGeo) {geoSource = geoCode.c_str();}
 	const char* fragSource = fragCode.c_str();
 
 	GLuint vertShader = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vertShader, 1, &vertSource, NULL);
 	glCompileShader(vertShader);
 
-	GLuint geoShader = glCreateShader(GL_GEOMETRY_SHADER);
-	glShaderSource(geoShader, 1, &geoSource, NULL);
-	glCompileShader(geoShader);
+	GLuint geoShader;
+	if (hasGeo) {
+		geoShader = glCreateShader(GL_GEOMETRY_SHADER);
+		glShaderSource(geoShader, 1, &geoSource, NULL);
+		glCompileShader(geoShader);
+	}
 
 	GLuint fragShader = glCreateShader(GL_FRAGMENT_SHADER);
 	glShaderSource(fragShader, 1, &fragSource, NULL);
@@ -47,12 +52,14 @@ Shader::Shader(const char* vertFile, const char* geoFile, const char* fragFile) 
 		std::cout << "Vertex Shader Compilation Failed!\n" << infoLog << std::endl;
 	}
 
-	glGetShaderiv(geoShader, GL_COMPILE_STATUS, &success);
+	if (hasGeo) {
+		glGetShaderiv(geoShader, GL_COMPILE_STATUS, &success);
 
-	if (!success)
-	{
-		glGetShaderInfoLog(geoShader, 512, NULL, infoLog);
-		std::cout << "Geometry Shader Compilation Failed!\n" << infoLog << std::endl;
+		if (!success)
+		{
+			glGetShaderInfoLog(geoShader, 512, NULL, infoLog);
+			std::cout << "Geometry Shader Compilation Failed!\n" << infoLog << std::endl;
+		}
 	}
 
 	glGetShaderiv(fragShader, GL_COMPILE_STATUS, &success);
@@ -65,7 +72,7 @@ Shader::Shader(const char* vertFile, const char* geoFile, const char* fragFile) 
 
 	ID = glCreateProgram();
 	glAttachShader(ID, vertShader);
-	glAttachShader(ID, geoShader);
+	if (hasGeo) {glAttachShader(ID, geoShader);}
 	glAttachShader(ID, fragShader);
 
 	glLinkProgram(ID);
@@ -79,7 +86,7 @@ Shader::Shader(const char* vertFile, const char* geoFile, const char* fragFile) 
 	std::cout << "Shaders & Program Compilation Finished." << std::endl;
 
 	glDeleteShader(vertShader);
-	glDeleteShader(geoShader);
+	if (hasGeo) {glDeleteShader(geoShader);}
 	glDeleteShader(fragShader);
 }
 

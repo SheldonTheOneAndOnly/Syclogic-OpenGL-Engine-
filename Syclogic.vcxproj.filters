@@ -48,6 +48,12 @@
     <ClCompile Include="root\classes\core\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="root\classes\rendering\FBO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="root\classes\rendering\RBO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="root\include\classes\misc\Shortcuts.h">
@@ -74,6 +80,15 @@
     <ClInclude Include="root\include\classes\core\Mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="root\include\classes\rendering\FBO.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="root\include\classes\rendering\RBO.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="root\include\classes\rendering\Material.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="root\shaders\basic\basic_vertex.glsl" />
@@ -82,6 +97,8 @@
     <None Include="root\shaders\lighting\light_fragment.glsl" />
     <None Include="root\shaders\basic\basic_geometry.glsl" />
     <None Include="root\shaders\lighting\light_geometry.glsl" />
+    <None Include="root\shaders\UI\framebuffer_vertex.glsl" />
+    <None Include="root\shaders\UI\framebuffer_fragment.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="root\resources\textures\Got.png">

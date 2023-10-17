@@ -12,10 +12,10 @@
 #include<classes/core/Mesh.h>
 
 Vertex vertices[] = {
-	Vertex{glm::vec3(- 2.5f, 0.0f,  2.5f),   glm::vec3(0.0f, 1.0f, 0.0f),		glm::vec3(0.83f, 0.70f, 0.44f), 	 glm::vec2(0.0f, 0.0f)},
-	Vertex{glm::vec3(-2.5f, 0.0f, -2.5f),    glm::vec3(0.0f, 1.0f, 0.0f),		glm::vec3(0.83f, 0.70f, 0.44f),	 glm::vec2(0.0f, 5.0f)},
-	Vertex{glm::vec3(2.5f, 0.0f, -2.5f),     glm::vec3(0.0f, 1.0f, 0.0f),		glm::vec3(0.83f, 0.70f, 0.44f),	 glm::vec2(5.0f, 5.0f)},
-	Vertex{glm::vec3(2.5f, 0.0f,  2.5f),     glm::vec3(0.0f, 1.0f, 0.0f),		glm::vec3(0.83f, 0.70f, 0.44f),	 glm::vec2(5.0f, 0.0f)},
+	Vertex{glm::vec3(- 1.0f, 0.0f,  1.0f),   glm::vec3(1.0f, 1.0f, 1.0f),	 glm::vec2(0.0f, 0.0f),		glm::vec3(0.0f, 1.0f, 0.0f)},
+	Vertex{glm::vec3(-1.0f, 0.0f, -1.0f),    glm::vec3(1.0f, 1.0f, 1.0f),	 glm::vec2(0.0f, 1.0f),		glm::vec3(0.0f, 1.0f, 0.0f)},
+	Vertex{glm::vec3(1.0f, 0.0f, -1.0f),     glm::vec3(1.0f, 1.0f, 1.0f),	 glm::vec2(1.0f, 1.0f),		glm::vec3(0.0f, 1.0f, 0.0f)},
+	Vertex{glm::vec3(1.0f, 0.0f,  1.0f),     glm::vec3(1.0f, 1.0f, 1.0f),	 glm::vec2(1.0f, 0.0f),		glm::vec3(0.0f, 1.0f, 0.0f)}
 };
 
 // Indices for vertices order
@@ -51,29 +51,29 @@ GLuint lightIndices[] = {
 };
 
 int main() {
-	Window window = Window(800, 800, "OpenGL Renderer");
+	Window window = Window(800, 800, "OpenGL Renderer", 8);
 	stbi_set_flip_vertically_on_load(true);
 
 	Texture textures[] = {
-		Texture("root/resources/textures/Brick.tga", "diff", 0, GL_RGB, GL_NEAREST, GL_REPEAT),
-		Texture("root/resources/textures/Brick_s.tga", "spec", 1, GL_RED, GL_NEAREST, GL_REPEAT)
+		Texture("root/resources/textures/AICobblestone.png", "diff", 0, GL_LINEAR, GL_REPEAT),
+		Texture("root/resources/textures/AICobblestone_s.png", "spec", 1, GL_LINEAR, GL_REPEAT),
+		Texture("root/resources/textures/AICobblestone_nh.png", "norm", 2, GL_LINEAR, GL_REPEAT)
 	};
 
-	Shader shaderProg = Shader("root/shaders/basic/basic_vertex.glsl", "root/shaders/basic/basic_geometry.glsl", "root/shaders/basic/basic_fragment.glsl");
+	Shader shaderProg("root/shaders/basic/basic_vertex.glsl", "root/shaders/basic/basic_geometry.glsl", "root/shaders/basic/basic_fragment.glsl", true);
 	std::vector<Vertex> verts(vertices, vertices + sizeof(vertices) / sizeof(Vertex));
 	std::vector<GLuint> inds(indices, indices + sizeof(indices) / sizeof(GLuint));
 	std::vector<Texture> texs(textures, textures + sizeof(textures) / sizeof(Texture));
 	Mesh plane(verts, inds, texs);
 
-	Shader lightProg = Shader("root/shaders/lighting/light_vertex.glsl", "root/shaders/lighting/light_geometry.glsl", "root/shaders/lighting/light_fragment.glsl");
+	Shader lightProg("root/shaders/lighting/light_vertex.glsl", "root/shaders/lighting/light_geometry.glsl", "root/shaders/lighting/light_fragment.glsl", true);
 	std::vector<Vertex> lightVerts(lightVertices, lightVertices + sizeof(lightVertices) / sizeof(Vertex));
 	std::vector<GLuint> lightInds(lightIndices, lightIndices + sizeof(lightIndices) / sizeof(GLuint));
 	Mesh light(lightVerts, lightInds, texs);
-	
 
-	glm::vec4 lightCol = glm::vec4(1.0f, 0.8f, 0.8f, 1.0f);
 
-	glm::vec3 lightPos = glm::vec3(0.0f, 0.5f, 0.0f);
+	glm::vec4 lightCol = glm::vec4(2.0f, 2.0f, 2.0f, 1.0f);
+	glm::vec3 lightPos = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::mat4 lightModel = glm::mat4(1.0f);
 	lightModel = glm::translate(lightModel, lightPos);
 
@@ -90,16 +90,20 @@ int main() {
 	glUniform4f(glGetUniformLocation(shaderProg.ID, "lightCol"), lightCol.x, lightCol.y, lightCol.z, lightCol.w);
 	glUniform3f(glGetUniformLocation(shaderProg.ID, "lightPos"), lightPos.x, lightPos.y, lightPos.z);
 	glUniform1f(glGetUniformLocation(shaderProg.ID, "ambience"), 0.1f);
-	glUniform1f(glGetUniformLocation(shaderProg.ID, "specular"), 0.5f);
+	glUniform1f(glGetUniformLocation(shaderProg.ID, "specular"), 1.0f);
+	glUniform1f(glGetUniformLocation(shaderProg.ID, "height"), 0.1f);
+	glUniform1i(glGetUniformLocation(shaderProg.ID, "normalMappingToggle"), 1);
+	glUniform1i(glGetUniformLocation(shaderProg.ID, "parallaxMappingToggle"), 1);
 
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_MULTISAMPLE);
 
 	Camera cam(window.width, window.height, glm::vec3(0.0f, 0.0f, 2.5f));
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 	while (!glfwWindowShouldClose(window.ID)) {
-		glClearColor(0.5f, 0.25f, 0.25f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		cam.Inputs(window.ID);

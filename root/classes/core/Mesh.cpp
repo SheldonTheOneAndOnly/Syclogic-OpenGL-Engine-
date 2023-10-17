@@ -12,8 +12,8 @@ Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, std::vec
 
 	VAO.Link(VBO, 0, 3, GL_FLOAT, sizeof(Vertex), 0);
 	VAO.Link(VBO, 1, 3, GL_FLOAT, sizeof(Vertex), (void*)(3 * sizeof(float)));
-	VAO.Link(VBO, 2, 3, GL_FLOAT, sizeof(Vertex), (void*)(6 * sizeof(float)));
-	VAO.Link(VBO, 3, 2, GL_FLOAT, sizeof(Vertex), (void*)(9 * sizeof(float)));
+	VAO.Link(VBO, 2, 2, GL_FLOAT, sizeof(Vertex), (void*)(6 * sizeof(float)));
+	VAO.Link(VBO, 3, 3, GL_FLOAT, sizeof(Vertex), (void*)(8 * sizeof(float)));
 	VAO.Unbind();
 	VBO.Unbind();
 	EBO.Unbind();
@@ -25,6 +25,7 @@ void Mesh::Draw(Shader& shader, Camera& camera) {
 
 	unsigned int numDiffs = 0;
 	unsigned int numSpecs = 0;
+	unsigned int numNors = 0;
 
 	for (unsigned int i = 0; i < texs.size(); i++) {
 		std::string num;
@@ -34,6 +35,9 @@ void Mesh::Draw(Shader& shader, Camera& camera) {
 		}
 		else if (type == "spec") {
 			num = std::to_string(numSpecs++);
+		}
+		else if (type == "norm") {
+			num = std::to_string(numNors++);
 		}
 		texs[i].TextureUnit(shader, (type + num).c_str(), i);
 		texs[i].Bind();

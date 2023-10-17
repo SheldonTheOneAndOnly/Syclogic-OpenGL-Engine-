@@ -14,7 +14,7 @@ class Shader {
 public:
 	GLuint ID;
 
-	Shader(const char* vertFile, const char* geoFile, const char* fragFile);
+	Shader(const char* vertFile, const char* geoFile, const char* fragFile, bool hasGeo);
 
 	void Activate();
 	void Destroy();

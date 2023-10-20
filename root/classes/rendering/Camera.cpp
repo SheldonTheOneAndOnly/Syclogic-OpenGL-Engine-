@@ -20,30 +20,30 @@ void Camera::Mat(Shader& shader, const char* uni) {
 	glUniformMatrix4fv(glGetUniformLocation(shader.ID, uni), 1, GL_FALSE, glm::value_ptr(camMat));
 }
 
-void Camera::Inputs(GLFWwindow* window) {
+void Camera::Inputs(GLFWwindow* window, float deltaTime) {
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-		position += speed / 50 * angle;
+		position += (speed * angle) * deltaTime;
 	}
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-		position += speed / 50 * -angle;
+		position += (speed * -angle) * deltaTime;
 	}
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-		position += speed / 50 * -glm::normalize(glm::cross(angle, upDirection));
+		position += (speed * -glm::normalize(glm::cross(angle, upDirection))) * deltaTime;
 	}
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-		position += speed / 50 * glm::normalize(glm::cross(angle, upDirection));
+		position += (speed * glm::normalize(glm::cross(angle, upDirection))) * deltaTime;
 	}
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
-		position += speed / 50 * upDirection;
+		position += (speed * upDirection) * deltaTime;
 	}
 	if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS) {
-		position += speed / 50 * -upDirection;
+		position += (speed * -upDirection) * deltaTime;
 	}
 	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-		speed = 0.025f;
+		speed = 2.0f;
 	}
 	else if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE) {
-		speed = 0.125f;
+		speed = 1.0f;
 	}
 
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS) {
@@ -75,5 +75,11 @@ void Camera::Inputs(GLFWwindow* window) {
 	else if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_RELEASE) {
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		debounce = false;
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+		glfwDestroyWindow(window);
+		std::cout << "ESCAPE KEY PRESSED. SHUTTING DOWN..." << std::endl;
+		glfwTerminate();
 	}
 }

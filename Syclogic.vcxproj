@@ -134,6 +134,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="root\classes\core\Mesh.cpp" />
+    <ClCompile Include="root\classes\core\Model.cpp" />
     <ClCompile Include="root\classes\misc\Shortcuts.cpp" />
     <ClCompile Include="root\classes\rendering\Camera.cpp" />
     <ClCompile Include="root\classes\rendering\EBO.cpp" />
@@ -149,6 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="root\include\classes\core\Mesh.h" />
+    <ClInclude Include="root\include\classes\core\Model.h" />
     <ClInclude Include="root\include\classes\misc\Shortcuts.h" />
     <ClInclude Include="root\include\classes\rendering\Camera.h" />
     <ClInclude Include="root\include\classes\rendering\EBO.h" />
@@ -161,6 +163,7 @@
     <ClInclude Include="root\include\classes\rendering\VBO.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="root\resources\models\plane.syc" />
     <None Include="root\shaders\basic\basic_fragment.glsl" />
     <None Include="root\shaders\basic\basic_geometry.glsl" />
     <None Include="root\shaders\basic\basic_vertex.glsl" />

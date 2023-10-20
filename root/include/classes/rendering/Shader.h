@@ -1,20 +1,18 @@
 #ifndef SHADER_H
 #define SHADER_H
 
+#include<string>
+
 #include<glad/glad.h>
 #include<GLFW/glfw3.h>
-#include<iostream>
-#include<fstream>
-#include<sstream>
-#include<cerrno>
 
-std::string GetFileContents(const char* filename);
+#include<classes/misc/Shortcuts.h>
 
 class Shader {
 public:
 	GLuint ID;
 
-	Shader(const char* vertFile, const char* geoFile, const char* fragFile, bool hasGeo);
+	Shader(std::string name, bool hasGeo);
 
 	void Activate();
 	void Destroy();

@@ -1,30 +1,14 @@
 #include<classes/rendering/Shader.h>
 
-std::string GetFileContents(const char* filename)
-{
-	std::ifstream in(filename, std::ios::binary);
-	if (in)
-	{
-		std::string contents;
-		in.seekg(0, std::ios::end);
-		contents.resize(in.tellg());
-		in.seekg(0, std::ios::beg);
-		in.read(&contents[0], contents.size());
-		in.close();
-		return(contents);
-	}
-	throw(errno);
-}
-
-Shader::Shader(const char* vertFile, const char* geoFile, const char* fragFile, bool hasGeo) {
-	std::string vertCode = GetFileContents(vertFile);
+Shader::Shader(std::string name, bool hasGeo) {
+	std::string vertCode = GetFileContents((name + "_vertex.glsl").c_str());
 	std::string geoCode;
-	if (hasGeo) {geoCode = GetFileContents(geoFile);}
-	std::string fragCode = GetFileContents(fragFile);
+	if (hasGeo) geoCode = GetFileContents((name + "_geometry.glsl").c_str());
+	std::string fragCode = GetFileContents((name + "_fragment.glsl").c_str());
 
 	const char* vertSource = vertCode.c_str();
 	const char* geoSource;
-	if (hasGeo) {geoSource = geoCode.c_str();}
+	if (hasGeo) { geoSource = geoCode.c_str(); }
 	const char* fragSource = fragCode.c_str();
 
 	GLuint vertShader = glCreateShader(GL_VERTEX_SHADER);
@@ -72,7 +56,7 @@ Shader::Shader(const char* vertFile, const char* geoFile, const char* fragFile, 
 
 	ID = glCreateProgram();
 	glAttachShader(ID, vertShader);
-	if (hasGeo) {glAttachShader(ID, geoShader);}
+	if (hasGeo) { glAttachShader(ID, geoShader); }
 	glAttachShader(ID, fragShader);
 
 	glLinkProgram(ID);
@@ -86,7 +70,7 @@ Shader::Shader(const char* vertFile, const char* geoFile, const char* fragFile, 
 	std::cout << "Shaders & Program Compilation Finished." << std::endl;
 
 	glDeleteShader(vertShader);
-	if (hasGeo) {glDeleteShader(geoShader);}
+	if (hasGeo) { glDeleteShader(geoShader); }
 	glDeleteShader(fragShader);
 }
 

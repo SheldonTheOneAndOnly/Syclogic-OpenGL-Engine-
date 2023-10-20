@@ -9,7 +9,7 @@
 
 // These libraries are classes
 #include<classes/misc/Shortcuts.h>
-#include<classes/core/Mesh.h>
+#include<classes/core/Model.h>
 
 Vertex vertices[] = {
 	Vertex{glm::vec3(- 1.0f, 0.0f,  1.0f),   glm::vec3(1.0f, 1.0f, 1.0f),	 glm::vec2(0.0f, 0.0f),		glm::vec3(0.0f, 1.0f, 0.0f)},
@@ -60,17 +60,18 @@ int main() {
 		Texture("root/resources/textures/AICobblestone_nh.png", "norm", 2, GL_LINEAR, GL_REPEAT)
 	};
 
-	Shader shaderProg("root/shaders/basic/basic_vertex.glsl", "root/shaders/basic/basic_geometry.glsl", "root/shaders/basic/basic_fragment.glsl", true);
+	Shader shaderProg("root/shaders/basic/basic", true);
 	std::vector<Vertex> verts(vertices, vertices + sizeof(vertices) / sizeof(Vertex));
 	std::vector<GLuint> inds(indices, indices + sizeof(indices) / sizeof(GLuint));
 	std::vector<Texture> texs(textures, textures + sizeof(textures) / sizeof(Texture));
 	Mesh plane(verts, inds, texs);
 
-	Shader lightProg("root/shaders/lighting/light_vertex.glsl", "root/shaders/lighting/light_geometry.glsl", "root/shaders/lighting/light_fragment.glsl", true);
+	Shader lightProg("root/shaders/lighting/light", false);
 	std::vector<Vertex> lightVerts(lightVertices, lightVertices + sizeof(lightVertices) / sizeof(Vertex));
 	std::vector<GLuint> lightInds(lightIndices, lightIndices + sizeof(lightIndices) / sizeof(GLuint));
 	Mesh light(lightVerts, lightInds, texs);
 
+	Model plane2("root/resources/models/plane.syc");
 
 	glm::vec4 lightCol = glm::vec4(2.0f, 2.0f, 2.0f, 1.0f);
 	glm::vec3 lightPos = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -102,14 +103,24 @@ int main() {
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
+	system("CLS");
+	cout << R"(   _____            _             _      
+  / ____|          | |           (_)     
+ | (___  _   _  ___| | ___   __ _ _  ___ 
+  \___ \| | | |/ __| |/ _ \ / _` | |/ __|
+  ____) | |_| | (__| | (_) | (_| | | (__ 
+ |_____/ \__, |\___|_|\___/ \__, |_|\___|
+          __/ |              __/ |       
+         |___/              |___/        )" << endl << "Version 0.10 (.syc files!)" << endl;
+
 	while (!glfwWindowShouldClose(window.ID)) {
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		cam.Inputs(window.ID);
+		cam.Inputs(window.ID, window.deltaTime);
 		cam.UpdateMat(70.0f, 0.1f, 100.0f);
 
-		plane.Draw(shaderProg, cam);
+		plane2.Draw(shaderProg, cam);
 		light.Draw(lightProg, cam);
 
 		window.Update();

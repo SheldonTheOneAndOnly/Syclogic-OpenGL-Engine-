@@ -96,7 +96,7 @@ int main() {
   ____) | |_| | (__| | (_) | (_| | | (__ 
  |_____/ \__, |\___|_|\___/ \__, |_|\___|
           __/ |              __/ |       
-         |___/              |___/        )" << endl << "\t\tAn OpenGL engine by Syclon!" << endl << endl << "Version 0.10 (Smooth camera movement & zooming!)" << endl << endl << "New features:\nToggle normal/specular maps with N (normal map) and M (specular map)! Both disabled by default.\nScroll to change FOV! (Limit: 15-150)\nSmooth movement!\nWindow entirely resizeable WITHOUT stretching!\nBINDLESS TEXTURES! Meaning nigh-infinite texture slots!";
+         |___/              |___/        )" << endl << "\t\tAn OpenGL engine by Syclon!" << endl << endl << "Version 0.11 (Smooth camera movement & zooming!)" << endl << endl << "New features:\nToggle normal/specular maps with N (normal map) and M (specular map)! Both disabled by default.\nScroll to change FOV! (Limit: 15-150)\nSmooth movement!\nWindow entirely resizeable WITHOUT stretching!\nBINDLESS TEXTURES! Meaning nigh-infinite texture slots!";
 
 	float t = 0.0f;
 	bool nmt = false;

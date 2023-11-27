@@ -7,7 +7,7 @@ Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, std::vec
 
 	VAO.Bind();
 
-	VBO VBO(vertices);
+	VBO VBO(vertices, GL_STATIC_DRAW);
 	EBO EBO(indices);
 
 	VAO.Link(VBO, 0, 3, GL_FLOAT, sizeof(Vertex), 0);
@@ -39,7 +39,7 @@ void Mesh::Draw(Shader& shader, Camera& camera) {
 		else if (type == "norm") {
 			num = std::to_string(numNors++);
 		}
-		texs[i].TextureUnit(shader, (type + num).c_str(), i);
+		texs[i].TextureUnit(shader, (type + num).c_str());
 		texs[i].Bind();
 	}
 	glUniform3f(glGetUniformLocation(shader.ID, "camPos"), camera.position.x, camera.position.y, camera.position.z);

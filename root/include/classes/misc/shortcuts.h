@@ -5,18 +5,23 @@
 #include<fstream>
 #include<sstream>
 #include<cerrno>
+#include<algorithm>
 
-#include<glad/glad.h>
-#include<GLFW/glfw3.h>
+#include<glad.h>
+#include<glfw3.h>
 #include<glm/glm.hpp>
 
-std::string GetFileContents(const char* filename);
+using namespace std;
+using namespace glm;
+
+string GetFileContents(const char* filename);
 
 class Window
 {
 public:
 	bool initialized = false;
 	GLFWwindow* ID;
+
 	int width, height;
 	float deltaTime = 0.0f;
 
@@ -29,13 +34,22 @@ public:
 private:
 	float lastFrame = 0.0f;
 	float curFrame = 0.0f;
+
+	void resize(int newWidth, int newHeight) {
+		glViewport(0, 0, newWidth, newHeight);
+		width = newWidth;
+		height = newHeight;
+		cout << width << ", " << height << endl;
+	}
 };
 
 struct Vertex {
-	glm::vec3 pos;
-	glm::vec3 col;
-	glm::vec2 UV;
-	glm::vec3 nor;
+	vec3 pos;
+	vec3 col;
+	vec2 UV;
+	vec3 nor;
 };
+
+static float SmoothStep(float x, float p1, float p2);
 
 #endif

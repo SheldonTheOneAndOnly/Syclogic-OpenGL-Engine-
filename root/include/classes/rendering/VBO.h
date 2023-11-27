@@ -1,8 +1,8 @@
 #ifndef VBO_H
 #define VBO_H
 
-#include<glad/glad.h>
-#include<GLFW/glfw3.h>
+#include<glad.h>
+#include<glfw3.h>
 #include<vector>
 
 #include<classes/misc/shortcuts.h>
@@ -11,7 +11,7 @@ class VBO {
 public:
 	GLuint ID;
 
-	VBO(std::vector<Vertex>& verts);
+	VBO(std::vector<Vertex>& verts, GLenum usage);
 
 	void Bind();
 	void Unbind();

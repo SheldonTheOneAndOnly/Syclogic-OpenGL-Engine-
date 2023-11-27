@@ -1,13 +1,14 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include<glad/glad.h>
-#include<GLFW/glfw3.h>
+#include<glad.h>
+#include<glfw3.h>
 #include<glm/glm.hpp>
 #include<glm/gtc/matrix_transform.hpp>
 #include<glm/gtc/type_ptr.hpp>
 #include<glm/gtx/rotate_vector.hpp>
 #include<glm/gtx/vector_angle.hpp>
+#include<glm/gtx/string_cast.hpp>
 
 #include<classes/rendering/shader.h>
 
@@ -22,17 +23,35 @@ public:
 
 	int width, height;
 
-	float speed = 0.01f;
+	float speed = 1.0f;
 	float sensitivity = 100.0f;
 
-	Camera(int Width, int Height, glm::vec3 Pos);
+	Camera(int width, int height, glm::vec3 Pos);
 
-	void UpdateMat(float FOV, float nearZ, float farZ);
+	void UpdateMat(int width, int height, float FOV, float nearZ, float farZ);
 	void Mat(Shader& shader, const char* uni);
 	void Inputs(GLFWwindow* window, float deltaTime);
 private:
-	glm::vec3 direction;
-	float multiplySpeed = 0.0f;
+	vec3 lerpPos = vec3(0.0f);
+	vec3 lerpAng = vec3(0.0f, 0.0f, -1.0f);
+	float multiplySpeed = 1.0f;
+
+	int movementKeys[6] = {
+		GLFW_KEY_W,
+		GLFW_KEY_S,
+		GLFW_KEY_A,
+		GLFW_KEY_S,
+		GLFW_KEY_SPACE,
+		GLFW_KEY_LEFT_CONTROL,
+	};
+
+	float lerp(float x, float y, float t) {
+		return x * (1.0f - t) + y * t;
+	}
+	
+	vec3 vec3Lerp(vec3 x, vec3 y, float t) {
+		return x * (1.0f - t) + y * t;
+	}
 };
 
 #endif

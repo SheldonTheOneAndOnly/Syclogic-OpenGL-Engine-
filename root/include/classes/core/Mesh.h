@@ -4,8 +4,8 @@
 #include<string>
 #include<vector>
 
-#include<glad/glad.h>
-#include<GLFW/glfw3.h>
+#include<glad.h>
+#include<glfw3.h>
 
 #include<classes/misc/Shortcuts.h>
 #include<classes/rendering/Shader.h>

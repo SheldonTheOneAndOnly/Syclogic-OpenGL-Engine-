@@ -1,8 +1,8 @@
 #ifndef VAO_H
 #define VAO_H
 
-#include<glad/glad.h>
-#include<GLFW/glfw3.h>
+#include<glad.h>
+#include<glfw3.h>
 
 #include<classes/rendering/VBO.h>
 

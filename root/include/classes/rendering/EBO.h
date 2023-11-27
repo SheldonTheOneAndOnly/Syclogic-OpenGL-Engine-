@@ -1,8 +1,8 @@
 #ifndef EBO_H
 #define EBO_H
 
-#include<glad/glad.h>
-#include<GLFW/glfw3.h>
+#include<glad.h>
+#include<glfw3.h>
 #include<iostream>
 #include<vector>
 

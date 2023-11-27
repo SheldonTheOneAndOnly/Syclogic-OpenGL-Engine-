@@ -1,5 +1,5 @@
 #include<classes/misc/shortcuts.h>
-#include<stb/stb_image.h>
+#include<stb_image.h>
 
 std::string GetFileContents(const char* filename)
 {
@@ -17,6 +17,7 @@ std::string GetFileContents(const char* filename)
 	throw(errno);
 }
 
+
 Window::Window(int windowWidth, int windowHeight, const char* title, unsigned int samples) {
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -26,7 +27,7 @@ Window::Window(int windowWidth, int windowHeight, const char* title, unsigned in
 
 	ID = glfwCreateWindow(windowWidth, windowHeight, title, NULL, NULL);
 	if (ID == NULL) {
-		std::cout << "Hey fuckwad, the window you tried to create failed to render." << std::endl;
+		std::cout << "GLFW ERROR: Window failed to create" << std::endl;
 		glfwTerminate();
 		return;
 	}
@@ -36,6 +37,15 @@ Window::Window(int windowWidth, int windowHeight, const char* title, unsigned in
 	gladLoadGL();
 
 	glViewport(0, 0, windowWidth, windowHeight);
+
+	glfwSetWindowUserPointer(ID, this);
+	glfwSetWindowSizeCallback(ID, [](GLFWwindow* w, int wi, int he) {
+		Window* i = static_cast<Window*>(glfwGetWindowUserPointer(w));
+
+		if (i) {
+			i->resize(wi, he);
+		}
+	});
 
 	initialized = true;
 	width = windowWidth;
@@ -53,8 +63,19 @@ void Window::Update() {
 	lastFrame = curFrame;
 	glfwSwapBuffers(ID);
 	glfwPollEvents();
+
+	if (glfwGetKey(this->ID, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+		std::cout << "ESCAPE KEY PRESSED. SHUTTING DOWN..." << std::endl;
+		glfwSetWindowShouldClose(this->ID, GL_TRUE);
+	}
 }
 
 void Window::Destroy() {
 	glfwDestroyWindow(ID);
+}
+
+static float SmoothStep(float x, float p1, float p2) {
+	x = clamp((x - p1) / (p2 - p1), 0.0f, 1.0f);
+
+	return x * x * (3.0f - 2.0f * x);
 }

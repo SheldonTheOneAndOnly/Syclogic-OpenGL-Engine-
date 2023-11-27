@@ -1,31 +1,9 @@
-VERTEX
-	POSITIONS
-		-1.0 0.0 1.0
-		-1.0 0.0 -1.0
-		1.0 0.0 -1.0
-		1.0 0.0 1.0
-	COLORS
-		1.0 1.0 1.0
-		1.0 1.0 1.0
-		1.0 1.0 1.0
-		1.0 1.0 1.0
-	UV
-		0.0 0.0
-		0.0 1.0
-		1.0 1.0
-		1.0 0.0
-	NORMALS
-		0.0 1.0 0.0
-		0.0 1.0 0.0
-		0.0 1.0 0.0
-		0.0 1.0 0.0
-
-INDEX
-	0 1 2
-	0 2 3
-
-TEXTURE
-	DIFFUSE "AICobblestone.png"
-	SPECULAR "AICobblestone_s.png"
-	NORMAL "AICobblestone_n.png"
-	DISPLACEMENT "AICobblestone_d.png"
+# Exported in Blender
+v0 p(-1.0, 0.0, 1.0); u(0.0, 0.0); n(0.0, 1.0, -0.0);
+v1 p(1.0, 0.0, 1.0); u(1.0, 0.0); n(0.0, 1.0, -0.0);
+v2 p(-1.0, 0.0, -1.0); u(0.0, 1.0); n(0.0, 1.0, -0.0);
+v3 p(1.0, 0.0, -1.0); u(1.0, 1.0); n(0.0, -1.0, -0.0);
+f0 (1, 2, 0);
+f1 (1, 3, 2);
+t0 f(diff="wall/brick.tga", spec="wall/brick_s.tga", norm="wall/brick_n.tga"); i(0, 1);
+# A basic plane

@@ -113,7 +113,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -135,6 +135,7 @@
   <ItemGroup>
     <ClCompile Include="root\classes\core\Mesh.cpp" />
     <ClCompile Include="root\classes\core\Model.cpp" />
+    <ClCompile Include="root\classes\core\Syclogic.cpp" />
     <ClCompile Include="root\classes\misc\Shortcuts.cpp" />
     <ClCompile Include="root\classes\rendering\Camera.cpp" />
     <ClCompile Include="root\classes\rendering\EBO.cpp" />
@@ -142,6 +143,7 @@
     <ClCompile Include="root\classes\rendering\RBO.cpp" />
     <ClCompile Include="root\classes\rendering\Shader.cpp" />
     <ClCompile Include="root\classes\rendering\Texture.cpp" />
+    <ClCompile Include="root\classes\rendering\UI.cpp" />
     <ClCompile Include="root\classes\rendering\VBO.cpp" />
     <ClCompile Include="root\main.cpp" />
     <ClCompile Include="root\src\glad.c" />
@@ -151,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="root\include\classes\core\Mesh.h" />
     <ClInclude Include="root\include\classes\core\Model.h" />
+    <ClInclude Include="root\include\classes\core\Syclogic.h" />
     <ClInclude Include="root\include\classes\misc\Shortcuts.h" />
     <ClInclude Include="root\include\classes\rendering\Camera.h" />
     <ClInclude Include="root\include\classes\rendering\EBO.h" />
@@ -159,11 +162,14 @@
     <ClInclude Include="root\include\classes\rendering\RBO.h" />
     <ClInclude Include="root\include\classes\rendering\Shader.h" />
     <ClInclude Include="root\include\classes\rendering\Texture.h" />
+    <ClInclude Include="root\include\classes\rendering\UI.h" />
     <ClInclude Include="root\include\classes\rendering\VAO.h" />
     <ClInclude Include="root\include\classes\rendering\VBO.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="root\resources\models\plane.syc" />
+    <None Include="root\shaders\assets\test_fragment.glsl" />
+    <None Include="root\shaders\assets\test_geometry.glsl" />
+    <None Include="root\shaders\assets\test_vertex.glsl" />
     <None Include="root\shaders\basic\basic_fragment.glsl" />
     <None Include="root\shaders\basic\basic_geometry.glsl" />
     <None Include="root\shaders\basic\basic_vertex.glsl" />
@@ -172,12 +178,8 @@
     <None Include="root\shaders\lighting\light_vertex.glsl" />
     <None Include="root\shaders\UI\framebuffer_fragment.glsl" />
     <None Include="root\shaders\UI\framebuffer_vertex.glsl" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="root\resources\textures\brick.tga" />
-    <Image Include="root\resources\textures\brick_n.tga" />
-    <Image Include="root\resources\textures\brick_s.tga" />
-    <Image Include="root\resources\textures\Got.png" />
+    <None Include="root\shaders\UI\text_fragment.glsl" />
+    <None Include="root\shaders\UI\text_vertex.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

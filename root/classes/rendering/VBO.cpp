@@ -1,9 +1,9 @@
 #include<classes/rendering/VBO.h>
 
-VBO::VBO(std::vector<Vertex>& verts) {
+VBO::VBO(std::vector<Vertex>& verts, GLenum usage) {
 	glGenBuffers(1, &ID);
 	glBindBuffer(GL_ARRAY_BUFFER, ID);
-	glBufferData(GL_ARRAY_BUFFER, verts.size() * sizeof(Vertex), verts.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, verts.size() * sizeof(Vertex), verts.data(), usage);
 	std::cout << "VBO successfully created" << std::endl;
 }
 

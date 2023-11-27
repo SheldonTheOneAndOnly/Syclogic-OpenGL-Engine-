@@ -4,16 +4,20 @@ Camera::Camera(int Width, int Height, glm::vec3 Pos) {
 	width = Width;
 	height = Height;
 	position = Pos;
+	lerpPos = position;
 }
 
-void Camera::UpdateMat(float FOV, float nearZ, float farZ) {
+void Camera::UpdateMat(int w, int h, float FOV, float nearZ, float farZ) {
 	glm::mat4 view = glm::mat4(1.0f);
 	glm::mat4 projection = glm::mat4(1.0f);
 
 	view = glm::lookAt(position, position + angle, upDirection);
-	projection = glm::perspective(glm::radians(FOV), (float)(width / height), nearZ, farZ);
+	projection = glm::perspective(glm::radians(FOV), (float)w / h, nearZ, farZ);
 
 	camMat = projection * view;
+
+	width = w;
+	height = h;
 }
 
 void Camera::Mat(Shader& shader, const char* uni) {
@@ -21,29 +25,37 @@ void Camera::Mat(Shader& shader, const char* uni) {
 }
 
 void Camera::Inputs(GLFWwindow* window, float deltaTime) {
+	// Movement
+
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-		position += (speed * angle) * deltaTime;
+		lerpPos += (speed * multiplySpeed * angle) * deltaTime;
 	}
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-		position += (speed * -angle) * deltaTime;
+		lerpPos += (speed * multiplySpeed * -angle) * deltaTime;
 	}
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-		position += (speed * -glm::normalize(glm::cross(angle, upDirection))) * deltaTime;
+		lerpPos += (speed * multiplySpeed * -glm::normalize(glm::cross(angle, upDirection))) * deltaTime;
 	}
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-		position += (speed * glm::normalize(glm::cross(angle, upDirection))) * deltaTime;
+		lerpPos += (speed * multiplySpeed * glm::normalize(glm::cross(angle, upDirection))) * deltaTime;
 	}
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
-		position += (speed * upDirection) * deltaTime;
+		lerpPos += (speed * multiplySpeed * upDirection) * deltaTime;
 	}
 	if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS) {
-		position += (speed * -upDirection) * deltaTime;
+		lerpPos += (speed * multiplySpeed * -upDirection) * deltaTime;
 	}
+
+	position = vec3Lerp(position, lerpPos, deltaTime / 0.1f);
+
 	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-		speed = 2.0f;
+		multiplySpeed = Camera::lerp(multiplySpeed, 2.0f, deltaTime / 0.1f);
+	}
+	else if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) == GLFW_PRESS) {
+		multiplySpeed = Camera::lerp(multiplySpeed, 0.5f, deltaTime / 0.1f);
 	}
 	else if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE) {
-		speed = 1.0f;
+		multiplySpeed = Camera::lerp(multiplySpeed, 1.0f, deltaTime / 0.1f);
 	}
 
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS) {
@@ -65,6 +77,7 @@ void Camera::Inputs(GLFWwindow* window, float deltaTime) {
 
 		if (abs(glm::angle(newAngle, upDirection) - glm::radians(90.0f)) <= glm::radians(85.0f))
 		{
+			lerpAng = newAngle;
 			angle = newAngle;
 		}
 
@@ -75,11 +88,5 @@ void Camera::Inputs(GLFWwindow* window, float deltaTime) {
 	else if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_RELEASE) {
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		debounce = false;
-	}
-
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-		glfwDestroyWindow(window);
-		std::cout << "ESCAPE KEY PRESSED. SHUTTING DOWN..." << std::endl;
-		glfwTerminate();
 	}
 }

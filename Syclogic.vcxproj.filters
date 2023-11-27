@@ -54,6 +54,15 @@
     <ClCompile Include="root\classes\rendering\RBO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="root\classes\core\Model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="root\classes\core\Syclogic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="root\classes\rendering\UI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="root\include\classes\misc\Shortcuts.h">
@@ -89,6 +98,15 @@
     <ClInclude Include="root\include\classes\rendering\Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="root\include\classes\core\Model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="root\include\classes\core\Syclogic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="root\include\classes\rendering\UI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="root\shaders\basic\basic_vertex.glsl" />
@@ -99,13 +117,10 @@
     <None Include="root\shaders\lighting\light_geometry.glsl" />
     <None Include="root\shaders\UI\framebuffer_vertex.glsl" />
     <None Include="root\shaders\UI\framebuffer_fragment.glsl" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="root\resources\textures\Got.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="root\resources\textures\brick.tga" />
-    <Image Include="root\resources\textures\brick_n.tga" />
-    <Image Include="root\resources\textures\brick_s.tga" />
+    <None Include="root\shaders\UI\text_vertex.glsl" />
+    <None Include="root\shaders\UI\text_fragment.glsl" />
+    <None Include="root\shaders\assets\test_fragment.glsl" />
+    <None Include="root\shaders\assets\test_geometry.glsl" />
+    <None Include="root\shaders\assets\test_vertex.glsl" />
   </ItemGroup>
 </Project>

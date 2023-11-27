@@ -1,10 +1,27 @@
 #include<classes/core/Model.h>
 
+vector<string> split(string s, string delimiter) {
+	size_t pos_start = 0, pos_end, delim_len = delimiter.length();
+	string token;
+	vector<string> res;
+
+	while ((pos_end = s.find(delimiter, pos_start)) != string::npos) {
+		token = s.substr(pos_start, pos_end - pos_start);
+		pos_start = pos_end + delim_len;
+		res.push_back(token);
+	}
+
+	res.push_back(s.substr(pos_start));
+	return res;
+}
+
+string GetInBetweens(string text, string start, string end) {
+	string str = text.substr(text.find_first_of(start) + 1, text.find_last_of(end) - text.find_first_of(start) - 1);
+	return str;
+}
+
 Model::Model(string file) {
-	vector<vec3> positions;
-	vector<vec3> colors;
-	vector<vec2> UVs;
-	vector<vec3> normals;
+	vector<Vertex> verts;
 
 	vector<GLuint> inds;
 
@@ -16,210 +33,123 @@ Model::Model(string file) {
 
 	if (content.is_open()) {
 		string line;
-		bool inVertex = false;
-		bool inPos = false;
-		bool inCol = false;
-		bool inUV = false;
-		bool inNor = false;
-
-		bool inIndex = false;
-
-		bool inTexture = false;
-		vector<const char*> types;
-		GLuint textureSlot = 0;
 
 		while (getline(content, line)) {
-			// Get what header the line is
-			if (line == "VERTEX") {
-				inVertex = true;
-			}
-			else if (line == "INDEX") {
-				inVertex = false;
-				inNor = false;
-				inIndex = true;
-			}
-			else if (line == "TEXTURE") {
-				inIndex = false;
-				inTexture = true;
+			// Comment Compilation
+			if (line.rfind("#", 0) == 0) {
+				cout << "Line starts with \"#\", skipping...\n";
 			}
 
-			// Process vertex data
-			if (inVertex) {
-				// Get what sub-header the line is for the vertex data
-				if (line == "\tPOSITIONS") {
-					inPos = true;
-				}
-				else if (line == "\tCOLORS") {
-					inPos = false;
-					inCol = true;
-				}
-				else if (line == "\tUV") {
-					inCol = false;
-					inUV = true;
-				}
-				else if (line == "\tNORMALS") {
-					inUV = false;
-					inNor = true;
-				}
-				else if (line == "") {
-					inPos = false;
-					inCol = false;
-					inUV = false;
-					inNor = false;
-				}
+			// Vertex Compilation
+			if (line.rfind("v", 0) == 0) {
+				vec3 pos;
+				vec2 uv;
+				vec3 nor;
+				string lineWithoutPrefix = line.substr(line.find_first_of('p'));
+				vector<string> lines = split(lineWithoutPrefix, "; ");
 
-				// Process each data
-				string stringVec;
-
-				if (inPos) {
-					if (line == "\tPOSITIONS") continue;
-					stringVec = line.substr(2, line.find_last_not_of("\t"));
-
-					string s;
-					stringstream ss(stringVec);
-
-					vector<float> v;
-
-					while (getline(ss, s, ' ')) {
-						float val = atof(s.c_str());
-						v.push_back(val);
+				// For every "vector" in the line (position, UV, and normal vectors)
+				for (auto vertLine : lines) {
+					// Position
+					if (vertLine.rfind("p", 0) == 0) {
+						string numList = vertLine.substr(vertLine.find_first_of("p(") + 2, vertLine.find_first_of(")") - 2);
+						vector<string> nums = split(numList, ", ");
+						pos = vec3(stof(nums[0]), stof(nums[1]), stof(nums[2]));
+					}
+					
+					// UV
+					if (vertLine.rfind("u", 0) == 0) {
+						string numList = vertLine.substr(vertLine.find_first_of("u(") + 2, vertLine.find_first_of(")") - 2);
+						vector<string> nums = split(numList, ", ");
+						uv = vec2(stof(nums[0]), stof(nums[1]));
 					}
 
-					vec3 vec = vec3(v[0], v[1], v[2]);
-
-					positions.push_back(vec);
-				}
-				else if (inCol) {
-					if (line == "\tCOLORS") continue;
-					stringVec = line.substr(2, line.find_last_not_of("\t"));
-
-					string s;
-					stringstream ss(stringVec);
-
-					vector<float> v;
-
-					while (getline(ss, s, ' ')) {
-						float val = atof(s.c_str());
-						v.push_back(val);
+					// Normal
+					if (vertLine.rfind("n", 0) == 0) {
+						string numList = vertLine.substr(vertLine.find_first_of("n(") + 2, vertLine.find_first_of(")") - 2);
+						vector<string> nums = split(numList, ", ");
+						nor = vec3(stof(nums[0]), stof(nums[1]), stof(nums[2]));
 					}
-
-					vec3 vec = vec3(v[0], v[1], v[2]);
-
-					colors.push_back(vec);
 				}
-				else if (inUV) {
-					if (line == "\tUV") continue;
-					stringVec = line.substr(2, line.find_last_not_of("\t"));
 
-					string s;
-					stringstream ss(stringVec);
+				// Push back the vertex data
+				verts.push_back(Vertex{ pos, vec3(1.0f, 1.0f, 1.0f), uv, nor });
+			}
 
-					vector<float> v;
+			// Index Compilation
+			if (line.rfind("f", 0) == 0) {
+				string lineWithoutPrefix = GetInBetweens(line, "(", ")");
+				vector<string> lines = split(lineWithoutPrefix, ", ");
 
-					while (getline(ss, s, ' ')) {
-						float val = atof(s.c_str());
-						v.push_back(val);
-					}
-
-					vec2 vec = vec2(v[0], v[1]);
-
-					UVs.push_back(vec);
-				}
-				else if (inNor) {
-					if (line == "\tNORMALS") continue;
-					stringVec = line.substr(2, line.find_last_not_of("\t"));
-
-					string s;
-					stringstream ss(stringVec);
-
-					vector<float> v;
-
-					while (getline(ss, s, ' ')) {
-						float val = atof(s.c_str());
-						v.push_back(val);
-					}
-
-					vec3 vec = vec3(v[0], v[1], v[2]);
-
-					normals.push_back(vec);
+				// For every integer in the line
+				for (auto line : lines) {
+					int num = stoi(line);
+					inds.push_back(num);
 				}
 			}
 
-			// Process index data
-			if (inIndex) {
-				if (line == "INDEX" || line == "") continue;
-				string stringVec = line.substr(1);
+			// Texture Compilation
+			if (line.rfind("t", 0) == 0) {
+				string diff;
+				string spec;
+				string norm;
+				vector<int> indices2;
 
-				string s;
-				stringstream ss(stringVec);
+				string lineWithoutPrefix = line.substr(line.find_first_of('f'));
+				vector<string> lines = split(lineWithoutPrefix, "; ");
 
-				vector<GLuint> v;
+				// For every attribute in material
+				for (auto textLine : lines) {
+					// Texture name
+					if (textLine.rfind("f", 0) == 0) {
+						string textLineCompiled = textLine.substr(textLine.find_first_of("f(") + 2, textLine.find_last_of(")") - textLine.find_first_of("f(") - 2);
+						vector<string> textLines = split(textLineCompiled, ", ");
 
-				while (getline(ss, s, ' ')) {
-					GLuint val = atoi(s.c_str());
-					inds.push_back(val);
+						// For every attribute in texture
+						for (auto attrib : textLines) {
+							if (attrib.rfind("diff=", 0) == 0) {
+								string name = GetInBetweens(attrib, "\"", "\"");
+								diff = name;
+							}
+							if (attrib.rfind("spec=", 0) == 0) {
+								string name = GetInBetweens(attrib, "\"", "\"");
+								spec = name;
+							}
+							if (attrib.rfind("norm=", 0) == 0) {
+								string name = GetInBetweens(attrib, "\"", "\"");
+								norm = name;
+							}
+						}
+					}
+
+					// Indices
+					if (textLine.rfind("i", 0) == 0) {
+						string iList = textLine.substr(textLine.find_first_of("i(") + 2, textLine.find_first_of(")") - 2);
+						vector<string> nums = split(iList, ", ");
+						for (string num : nums) indices2.push_back(stoi(num));
+					}
 				}
-			}
 
-			// Process texture data
-			if (inTexture) {
-				if (line == "TEXTURE") continue;
-				string typeStr = line.substr(1, line.find_first_of('"') - 2);
+				string textureDirectory = "root/resources/textures/";
 
-				auto start = line.find_first_of('"') + 1;
-				auto end = line.find_last_of('"');
-				string textureName = line.substr(start, end - start);
-
-				for (auto& chara : typeStr) {
-					chara = tolower(chara);
-				}
-
-				texs.push_back(Texture(("root/resources/textures/" + textureName).c_str(), typeStr.c_str(), textureSlot, GL_LINEAR, GL_REPEAT));
-				textureSlot++;
+				texs.push_back(Texture((textureDirectory + diff).c_str(), "diff", GL_LINEAR, GL_REPEAT));
+				if (!spec.empty()) texs.push_back(Texture((textureDirectory + spec).c_str(), "spec", GL_LINEAR, GL_REPEAT));
+				if (!norm.empty()) texs.push_back(Texture((textureDirectory + norm).c_str(), "norm", GL_LINEAR, GL_REPEAT));
 			}
 		}
-	}
 
-	for (unsigned int i = 0; i < positions.size(); i++) {
-		vertices.push_back(Vertex{ positions[i], colors[i], UVs[i], normals[i] });
-	}
-
-	for (unsigned int i = 0; i < inds.size(); i++) {
-		indices.push_back(inds[i]);
-	}
-
-	for (unsigned int i = 0; i < texs.size(); i++) {
-		textures.push_back(texs[i]);
-	}
-
-	meshes.push_back(Mesh(vertices, indices, textures));
-
-	for (unsigned int i = 0; i < meshes.size(); i++) {
-		// Vertex
-		for (unsigned int j = 0; j < meshes[i].verts.size(); j++) {
-			cout << "Vertex{Pos: (";
-			for (unsigned int k = 0; k < meshes[i].verts[j].pos.length(); k++) {
-				cout << meshes[i].verts[j].pos[k] << ", ";
-			}
-			cout << "), Col: (";
-			for (unsigned int k = 0; k < meshes[i].verts[j].col.length(); k++) {
-				cout << meshes[i].verts[j].col[k] << ", ";
-			}
-			cout << "), UV: (";
-			for (unsigned int k = 0; k < meshes[i].verts[j].UV.length(); k++) {
-				cout << meshes[i].verts[j].UV[k] << ", ";
-			}
-			cout << "), Nor: (";
-			for (unsigned int k = 0; k < meshes[i].verts[j].nor.length(); k++) {
-				cout << meshes[i].verts[j].nor[k] << ", ";
-			}
-			cout << ")}" << endl;
+		// Mesh Compilation
+		for (Vertex vert : verts) {
+			cout << vert.pos.x << ", " << vert.pos.y << ", " << vert.pos.z << endl;
+			cout << vert.UV.x << ", " << vert.UV.y << endl;
+			cout << vert.nor.x << ", " << vert.nor.y << ", " << vert.nor.z << endl;
 		}
+		meshes.push_back(Mesh(verts, inds, texs));
 	}
+
+	cout << "SYC FILE SUCCESSFULLY LOADED" << endl;
 }
 
 void Model::Draw(Shader& shader, Camera& camera) {
-	for (unsigned int i = 0; i < meshes.size(); i++) {
-		meshes[i].Draw(shader, camera);
-	}
+	for (Mesh m : meshes) m.Draw(shader, camera);
 }

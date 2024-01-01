@@ -4,6 +4,7 @@ layout (triangles) in;
 layout (triangle_strip, max_vertices = 3) out;
 
 out vec3 vNor;
+out vec3 vRefNor;
 out vec3 vCol;
 out vec2 vUV;
 out vec3 curPos;
@@ -11,13 +12,14 @@ out vec3 lightPos;
 out vec3 camPos;
 
 in DATA {
-	vec3 vNor;
-	vec3 vCol;
-	vec2 vUV;
-	mat4 camMat;
-	mat4 model;
-	vec3 lightPos;
-	vec3 camPos;
+    vec3 vNor;
+    vec3 vRefNor;
+    vec3 vCol;
+    vec2 vUV;
+    mat4 camMat;
+    mat4 model;
+    vec3 lightPos;
+    vec3 camPos;
 } data_in[];
 
 void main(){
@@ -42,6 +44,7 @@ void main(){
 	// Basic
 	gl_Position = data_in[0].camMat * gl_in[0].gl_Position;
 	vNor = tbn * data_in[0].vNor;
+	vRefNor = data_in[0].vRefNor;
 	vCol = data_in[0].vCol;
 	vUV = data_in[0].vUV;
 	curPos = tbn * gl_in[0].gl_Position.xyz;
@@ -51,6 +54,7 @@ void main(){
 	
 	gl_Position = data_in[1].camMat * gl_in[1].gl_Position;
 	vNor = tbn * data_in[1].vNor;
+	vRefNor = data_in[1].vRefNor;
 	vCol = data_in[1].vCol;
 	vUV = data_in[1].vUV;
 	curPos = tbn * gl_in[1].gl_Position.xyz;
@@ -60,6 +64,7 @@ void main(){
 	
 	gl_Position = data_in[2].camMat * gl_in[2].gl_Position;
 	vNor = tbn * data_in[2].vNor;
+	vRefNor = data_in[2].vRefNor;
 	vCol = data_in[2].vCol;
 	vUV = data_in[2].vUV;
 	curPos = tbn * gl_in[2].gl_Position.xyz;

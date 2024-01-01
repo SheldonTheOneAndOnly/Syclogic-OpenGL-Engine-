@@ -9,6 +9,7 @@
 
 #include<glad.h>
 #include<glfw3.h>
+#include<glfw3native.h>
 #include<glm/glm.hpp>
 
 using namespace std;
@@ -28,12 +29,18 @@ public:
 	Window(int windowWidth, int windowHeight, const char* title, unsigned int samples);
 
 	bool isValid();
+	void Frame(string filename);
+	void DrawFrame();
 	void Update();
+
+	void ChangeTitle(string title);
+
 	void Destroy();
 
 private:
-	float lastFrame = 0.0f;
-	float curFrame = 0.0f;
+	float lastFrame, curFrame = 0.0f;
+	int WINDOW_FRAME_MARGIN_SIZE = 16;
+	int WINDOW_FRAME_INNER_SIZE = 32;
 
 	void resize(int newWidth, int newHeight) {
 		glViewport(0, 0, newWidth, newHeight);

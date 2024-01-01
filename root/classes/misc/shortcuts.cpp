@@ -24,6 +24,10 @@ Window::Window(int windowWidth, int windowHeight, const char* title, unsigned in
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 	glfwWindowHint(GLFW_SAMPLES, samples);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
+
+	int centerX = glfwGetVideoMode(glfwGetPrimaryMonitor())->width / 2 - windowWidth / 2;
+	int centerY = glfwGetVideoMode(glfwGetPrimaryMonitor())->height / 2 - windowHeight / 2;
 
 	ID = glfwCreateWindow(windowWidth, windowHeight, title, NULL, NULL);
 	if (ID == NULL) {
@@ -47,6 +51,8 @@ Window::Window(int windowWidth, int windowHeight, const char* title, unsigned in
 		}
 	});
 
+	glfwSetWindowPos(ID, centerX, centerY);
+
 	initialized = true;
 	width = windowWidth;
 	height = windowHeight;
@@ -55,6 +61,9 @@ Window::Window(int windowWidth, int windowHeight, const char* title, unsigned in
 bool Window::isValid() {
 	if (initialized) { return true; }
 	else { return false; };
+}
+
+void Window::Frame(string filename) {
 }
 
 void Window::Update() {
@@ -68,6 +77,10 @@ void Window::Update() {
 		std::cout << "ESCAPE KEY PRESSED. SHUTTING DOWN..." << std::endl;
 		glfwSetWindowShouldClose(this->ID, GL_TRUE);
 	}
+}
+
+void Window::ChangeTitle(string title) {
+	glfwSetWindowTitle(ID, title.c_str());
 }
 
 void Window::Destroy() {

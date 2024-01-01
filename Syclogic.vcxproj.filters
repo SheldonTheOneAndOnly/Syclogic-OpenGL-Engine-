@@ -57,10 +57,13 @@
     <ClCompile Include="root\classes\core\Model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="root\classes\core\Syclogic.cpp">
+    <ClCompile Include="root\classes\rendering\UI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="root\classes\rendering\UI.cpp">
+    <ClCompile Include="root\classes\rendering\Skybox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="root\classes\rendering\Material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -101,10 +104,10 @@
     <ClInclude Include="root\include\classes\core\Model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="root\include\classes\core\Syclogic.h">
+    <ClInclude Include="root\include\classes\rendering\UI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="root\include\classes\rendering\UI.h">
+    <ClInclude Include="root\include\classes\rendering\Skybox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -122,5 +125,9 @@
     <None Include="root\shaders\assets\test_fragment.glsl" />
     <None Include="root\shaders\assets\test_geometry.glsl" />
     <None Include="root\shaders\assets\test_vertex.glsl" />
+    <None Include="root\shaders\lighting\skybox_vertex.glsl" />
+    <None Include="root\shaders\lighting\skybox_fragment.glsl" />
+    <None Include="root\shaders\assets\mirror_vertex.glsl" />
+    <None Include="root\shaders\assets\mirror_fragment.glsl" />
   </ItemGroup>
 </Project>

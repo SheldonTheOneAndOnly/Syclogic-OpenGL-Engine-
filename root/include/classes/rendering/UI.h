@@ -9,6 +9,8 @@
 #include<glm/gtc/matrix_transform.hpp>
 
 #include<classes/rendering/Shader.h>
+#include<classes/rendering/VAO.h>
+#include<classes/rendering/VBO.h>
 
 #include<ft2build.h>
 #include FT_FREETYPE_H
@@ -17,23 +19,34 @@ using namespace glm;
 using namespace std;
 
 class UI {
-private:
-	FT_Library ft;
-	FT_Face f;
 public:
-	GLuint VAO;
-	GLuint VBO;
-	struct FTChar {
-		unsigned int ID;
-		ivec2 Size;
-		ivec2 Bearing;
+	UI(Window w);
+
+	void Draw(Window w);
+};
+
+class Text {
+public:
+	string font;
+
+	Text(string fn);
+	void Draw(Shader s, string tx, vec2 pos, int size, vec3 col);
+
+private:
+	struct Char {
+		GLuint64 Handle;
+		ivec2   Size;
+		ivec2   Bearing;
 		unsigned int Advance;
 	};
+	std::map<char, Char> Chars;
 
-	map<char, FTChar> Chars;
-	UI(GLFWwindow* window);
+	unsigned int VAO, VBO;
+	GLuint64 handle;
 
-	void DrawText(Window w, Shader& s, std::string text, float x, float y, float scale, glm::vec3 color);
+	void SetCharBindlessHandle(char c, GLuint64 handle) {
+		Chars[c].Handle = handle;
+	}
 };
 
 #endif

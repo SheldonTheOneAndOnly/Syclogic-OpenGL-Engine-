@@ -1,6 +1,7 @@
 #include<classes/rendering/Shader.h>
 
 Shader::Shader(std::string name, bool hasGeo) {
+	cout << name << endl;
 	std::string vertCode = GetFileContents((name + "_vertex.glsl").c_str());
 	std::string geoCode;
 	if (hasGeo) geoCode = GetFileContents((name + "_geometry.glsl").c_str());
@@ -66,8 +67,6 @@ Shader::Shader(std::string name, bool hasGeo) {
 		glGetProgramInfoLog(ID, 512, NULL, infoLog);
 		std::cout << "Shader Program Compilation Failed!\n" << infoLog << std::endl;
 	}
-
-	std::cout << "Shaders & Program Compilation Finished." << std::endl;
 
 	glDeleteShader(vertShader);
 	if (hasGeo) { glDeleteShader(geoShader); }

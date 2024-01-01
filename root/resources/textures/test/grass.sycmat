@@ -1,0 +1,7 @@
+mode = normal
+diffuse = root/resources/textures/ground/grass.jpg
+specular = root/resources/textures/ground/grass_s.jpg
+normal = root/resources/textures/ground/grass_n.jpg
+filter = linear
+mipmapfilter = linear
+extension = repeat

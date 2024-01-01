@@ -43,7 +43,7 @@ void Mesh::Draw(Shader& shader, Camera& camera) {
 		texs[i].Bind();
 	}
 	glUniform3f(glGetUniformLocation(shader.ID, "camPos"), camera.position.x, camera.position.y, camera.position.z);
-	camera.Mat(shader, "camMat");
+	camera.Mat(shader);
 
 	glDrawElements(GL_TRIANGLES, inds.size(), GL_UNSIGNED_INT, 0);
 }
